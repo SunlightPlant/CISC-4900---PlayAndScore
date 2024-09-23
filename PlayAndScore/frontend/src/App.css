@@ -1,0 +1,29 @@
+body {
+  background-color: darkslategray;
+  color: black;
+}
+
+h1, h3{
+  text-align: center;
+}
+
+.game-display {
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  padding: 15px;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  background-color:aliceblue;
+}
+
+ .game-card {
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+} 
+
+
+.game-cover img {
+  width: auto; 
+  height: 250px; 
+}
