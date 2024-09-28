@@ -1,6 +1,6 @@
 body {
-  background-color: darkslategray;
-  color: black;
+  background-color: black;
+  color: white;
 }
 
 h1, h3{
@@ -13,7 +13,7 @@ h1, h3{
   display: grid;
   padding: 15px;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  background-color:aliceblue;
+  background-color:darkslategray;
 }
 
  .game-card {
@@ -23,7 +23,10 @@ h1, h3{
 } 
 
 
+
 .game-cover img {
-  width: auto; 
-  height: 250px; 
+  width: 200px; 
+  height: 280px; 
+  border: 1px solid pink;
+  border-radius:10px;
 }

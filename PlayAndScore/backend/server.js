@@ -8,12 +8,16 @@ const corsOptions = {
     origin: ["http://localhost:5173"],
 };
 
+app.use(cors(corsOptions));
+app.use(express.json());
+
 app.post('/api/games', async (req, res) => {
   console.log("POST received");
+  const {searchInput} = req.body;
     try {
         const response = await axios.post(
             'https://cors-anywhere.herokuapp.com/https://api.igdb.com/v4/games',
-            'fields name, genres.name, cover.url; where cover != null; limit 10;',  
+            `${searchInput ? `search "${searchInput}";` : ''} fields name, cover.url; where cover.url != null & category = (0,2) & version_parent = null; limit 20;`,
             {
                 headers: {
                     'Client-ID': process.env.VITE_APP_CLIENT_ID,  

@@ -6,10 +6,11 @@ import GameCard from './components/GameCard';
 function App() {
   const URL = "https://api.igdb.com/v4/games";
   const [games, setGames] = useState([]);
+  const [searchInput, setInput] = useState('');
 
-  const fetchGames = async () => {
+  const fetchGames = async (input) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/games', {
+      const response = await axios.post('http://localhost:5000/api/games', {searchInput: input}, {
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
         },
@@ -23,6 +24,11 @@ function App() {
     fetchGames();
   }, []);
 
+  const searchGame = (e) => {
+    e.preventDefault();
+    fetchGames(searchInput);
+  }
+
   const showGames = () => (
     games.map(game => (
       <GameCard key={game.id} 
@@ -35,6 +41,10 @@ function App() {
     <div>
       <h1>PlayAndScore</h1>
       <h3>Find and review all the games you know and love!</h3>
+      <form onSubmit={searchGame}>
+        <input type="text" onChange = {(e) => setInput(e.target.value)}></input>
+        <button type="submit">Submit</button>
+      </form>
       <div className="game-display">
        {showGames()}
     </div>
