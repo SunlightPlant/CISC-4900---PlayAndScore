@@ -7,10 +7,11 @@ function App() {
   const URL = "https://api.igdb.com/v4/games";
   const [games, setGames] = useState([]);
   const [searchInput, setInput] = useState('');
+  const [genres, setGenres] = useState('');
 
-  const fetchGames = async (input) => {
+  const fetchGames = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/games', {searchInput: input}, {
+      const response = await axios.post('http://localhost:5000/api/games', { searchInput, genres }, {
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
         },
@@ -26,7 +27,13 @@ function App() {
 
   const searchGame = (e) => {
     e.preventDefault();
-    fetchGames(searchInput);
+    fetchGames();
+  }
+
+  const sortGames = (e) => {
+    e.preventDefault();
+    setGenres(e.target.value);
+    fetchGames();
   }
 
   const showGames = () => (
@@ -36,7 +43,7 @@ function App() {
       </GameCard>
     ))
   );
-  
+
   return (
     <div>
       <h1>PlayAndScore</h1>
@@ -45,9 +52,18 @@ function App() {
         <input type="text" onChange = {(e) => setInput(e.target.value)}></input>
         <button type="submit">Submit</button>
       </form>
-      <div className="game-display">
-       {showGames()}
-    </div>
+      <form>
+        <p>Sort By Genre</p>
+        <input type="radio" id="Adventure" name="genre" value="Adventure" onChange={sortGames}></input>
+        <label for="Adventure">Adventure</label>
+        <input type="radio" id="Fighting" name="genre" value="Fighting" onChange={sortGames}></input>
+        <label for="Fighting">Fighting</label>
+        <input type="radio"id="Role-playing (RPG)" name="genre" value="Role-playing (RPG)" onChange={sortGames}></input>
+        <label for="Role-playing (RPG)">Role Playing Game</label>
+        <input type="radio" id="Puzzle" name="genre" value="Puzzle" onChange={sortGames}></input>
+        <label for="Puzzle">Puzzle</label>
+      </form>
+      <div className="game-display">{showGames()}</div>
     </div>
   );
 }

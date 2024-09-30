@@ -13,11 +13,11 @@ app.use(express.json());
 
 app.post('/api/games', async (req, res) => {
   console.log("POST received");
-  const {searchInput} = req.body;
+  const {searchInput, genres} = req.body;
     try {
         const response = await axios.post(
             'https://cors-anywhere.herokuapp.com/https://api.igdb.com/v4/games',
-            `${searchInput ? `search "${searchInput}";` : ''} fields name, cover.url; where cover.url != null & category = (0,2) & version_parent = null; limit 20;`,
+            `${searchInput ? `search "${searchInput}";` : ''} fields name, cover.url, genres.name; where cover.url != null ${genres ? `& genres.name = "${genres}"` : ''} & category = (0,2) & version_parent = null; limit 20;`,
             {
                 headers: {
                     'Client-ID': process.env.VITE_APP_CLIENT_ID,  
