@@ -17,7 +17,7 @@ app.post('/api/games', async (req, res) => {
     try {
         const response = await axios.post(
             'https://cors-anywhere.herokuapp.com/https://api.igdb.com/v4/games',
-            `${searchInput ? `search "${searchInput}";` : ''} fields name, cover.url, genres.name; where cover.url != null ${genres ? `& genres.name = "${genres}"` : ''} & category = (0,2) & version_parent = null; limit 20;`,
+            `${searchInput ? `search "${searchInput}";` : ''} fields name, cover.url, genres.name, platforms.name, first_release_date, involved_companies.developer, summary, total_rating_count, total_rating; where cover.url != null ${genres ? `& genres.name = "${genres}"` : ''} & category = (0,2) & version_parent = null; limit 36;`,
             {
                 headers: {
                     'Client-ID': process.env.VITE_APP_CLIENT_ID,  

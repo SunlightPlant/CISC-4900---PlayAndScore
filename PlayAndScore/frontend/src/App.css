@@ -3,6 +3,27 @@ body {
   color: white;
 }
 
+.firstline {
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+  margin: 10px;
+}
+
+.sortoptions {
+  margin: 10px;
+}
+
+.login {
+  border-radius : 10px;
+  border: 1px solid pink;
+  padding: 10px;
+}
+
+.radiobuttons {
+  margin-bottom:10px;
+}
+
 h1, h3{
   text-align: center;
 }
@@ -21,8 +42,6 @@ h1, h3{
   flex-direction: column; 
   align-items: center; 
 } 
-
-
 
 .game-cover img {
   width: 200px; 

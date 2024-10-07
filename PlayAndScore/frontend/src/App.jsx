@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
 import GameCard from './components/GameCard';
+import Modal from './components/Modal';
 
 function App() {
   const URL = "https://api.igdb.com/v4/games";
   const [games, setGames] = useState([]);
   const [searchInput, setInput] = useState('');
   const [genres, setGenres] = useState('');
+  const [clickedGame, setClickedGame] = useState(null);
 
   const fetchGames = async () => {
     try {
@@ -25,6 +27,14 @@ function App() {
     fetchGames();
   }, []);
 
+  const gameClick = (game) => {
+    setClickedGame(game);
+  }
+
+  const closeModal = () => {
+    setClickedGame(null);
+  }
+
   const searchGame = (e) => {
     e.preventDefault();
     fetchGames();
@@ -36,10 +46,17 @@ function App() {
     fetchGames();
   }
 
+  const resetFilter = (e) => {
+    e.preventDefault();
+    setGenres('');
+    fetchGames();
+  }
+
   const showGames = () => (
     games.map(game => (
       <GameCard key={game.id} 
-      game={game}>
+      game={game}
+      onClick={()=>gameClick(game)}>
       </GameCard>
     ))
   );
@@ -48,12 +65,19 @@ function App() {
     <div>
       <h1>PlayAndScore</h1>
       <h3>Find and review all the games you know and love!</h3>
+      <div className="firstline">
+        <h4>Search Game by Name</h4>
+        <div className="login">
+        <h4>Create Account/Sign In</h4>
+        </div>
+      </div>
+      <div className="sortoptions">
       <form onSubmit={searchGame}>
         <input type="text" onChange = {(e) => setInput(e.target.value)}></input>
         <button type="submit">Submit</button>
       </form>
       <form>
-        <p>Sort By Genre</p>
+        <h4>Sort By Genre</h4>
         <input type="radio" id="Adventure" name="genre" value="Adventure" onChange={sortGames}></input>
         <label for="Adventure">Adventure</label>
         <input type="radio" id="Fighting" name="genre" value="Fighting" onChange={sortGames}></input>
@@ -62,8 +86,29 @@ function App() {
         <label for="Role-playing (RPG)">Role Playing Game</label>
         <input type="radio" id="Puzzle" name="genre" value="Puzzle" onChange={sortGames}></input>
         <label for="Puzzle">Puzzle</label>
+        <input type="radio" id="Indie" name="genre" value="Indie" onChange={sortGames}></input>
+        <label for="Indie">Indie</label>
+        <input type="radio" id="Arcade" name="genre" value="Arcade" onChange={sortGames}></input>
+        <label for="Arcade">Arcade</label>
+        <input type="radio" id="MOBA" name="genre" value="MOBA" onChange={sortGames}></input>
+        <label for="MOBA">MOBA</label>
+        <input type="radio" id="Shooter" name="genre" value="Shooter" onChange={sortGames}></input>
+        <label for="Shooter">Shooter</label>
+        <input type="radio" id="Simulator" name="genre" value="Simulator" onChange={sortGames}></input>
+        <label for="Simulator">Simulator</label>
+        <input type="radio" id="Strategy" name="genre" value="Strategy" onChange={sortGames}></input>
+        <label for="Strategy">Strategy</label>
+        <input type="radio" id="Sport" name="genre" value="Sport" onChange={sortGames}></input>
+        <label for="Sport">Sports</label>
+        <input type="radio" id="Platform" name="genre" value="Platform" onChange={sortGames}></input>
+        <label for="Platform">Puzzle</label>
+        <button onClick={resetFilter}>Clear Genre Filter</button>
       </form>
+      </div>
       <div className="game-display">{showGames()}</div>
+      <div>
+      <Modal game={clickedGame} onClose={closeModal} />
+      </div>
     </div>
   );
 }

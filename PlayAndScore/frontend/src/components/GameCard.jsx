@@ -1,8 +1,8 @@
 import React from 'react';
 
-const GameCard = ({game}) => {
+const GameCard = ({game,onClick}) => {
     return (
-      <div className="game-card">
+      <div className="game-card" onClick={onClick} style={{ cursor: 'pointer' }}>
         <div className="game-title">
         <h3 >{game.name.slice()}</h3>
         </div>
