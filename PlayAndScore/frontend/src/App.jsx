@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
 import GameCard from './components/GameCard';
+import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';
 import Modal from './components/Modal';
+import Register from './pages/Register';
 
 function App() {
   const URL = "https://api.igdb.com/v4/games";
@@ -62,13 +64,19 @@ function App() {
   );
 
   return (
+    <BrowserRouter>
+      <Routes>
+        <Route path ="/" element={( 
     <div>
       <h1>PlayAndScore</h1>
       <h3>Find and review all the games you know and love!</h3>
+      <nav>
+      <Link to="/register">Register/Sign In</Link>
+      </nav>
       <div className="firstline">
         <h4>Search Game by Name</h4>
         <div className="login">
-        <h4>Create Account/Sign In</h4>
+        <h4>Register/Sign In</h4>
         </div>
       </div>
       <div className="sortoptions">
@@ -110,6 +118,11 @@ function App() {
       <Modal game={clickedGame} onClose={closeModal} />
       </div>
     </div>
+      )}
+    />
+    <Route path="/register" element={<Register />} />
+    </Routes>
+    </BrowserRouter>
   );
 }
 
