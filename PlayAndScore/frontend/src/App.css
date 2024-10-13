@@ -1,11 +1,11 @@
-body {
+.appbody {
   background-color: black;
   color: white;
 }
 
 .firstline {
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
   align-items: center;
   margin: 10px;
 }
@@ -14,17 +14,22 @@ body {
   margin: 10px;
 }
 
+.navlinks {
+  margin: 15px;
+}
+
 .login {
-  border-radius : 10px;
+  border-radius: 10px;
   border: 1px solid pink;
   padding: 10px;
 }
 
 .radiobuttons {
-  margin-bottom:10px;
+  margin-bottom: 10px;
 }
 
-h1, h3{
+h1,
+h3 {
   text-align: center;
 }
 
@@ -34,18 +39,18 @@ h1, h3{
   display: grid;
   padding: 15px;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  background-color:darkslategray;
+  background-color: darkslategray;
 }
 
- .game-card {
+.game-card {
   display: flex;
-  flex-direction: column; 
-  align-items: center; 
-} 
+  flex-direction: column;
+  align-items: center;
+}
 
 .game-cover img {
-  width: 200px; 
-  height: 280px; 
+  width: 200px;
+  height: 280px;
   border: 1px solid pink;
-  border-radius:10px;
+  border-radius: 10px;
 }
