@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+const User = require("./user");
 require("dotenv").config();
 
 const app = express();
@@ -43,6 +45,37 @@ app.post("/api/games", async (req, res) => {
     res.send(response.data);
   } catch (error) {
     console.error("Error found");
+  }
+});
+
+app.post("/register", async (req, res) => {
+  const { email, password, username } = req.body;
+
+  try {
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) {
+      return res.status(400).json({ message: "Email already in use" });
+    }
+    const existingUserName = await User.findOne({ username });
+    if (existingUserName) {
+      return res.status(400).json({ message: "Username already in use" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashPass = await bcrypt.hash(password, salt);
+
+    const newUser = new User({
+      email,
+      password: hashPass,
+      username,
+    });
+
+    await newUser.save();
+    res.status(201).json({
+      message: "User registered successfully",
+    });
+  } catch (error) {
+    console.error("Error registering user:", error);
   }
 });
 
