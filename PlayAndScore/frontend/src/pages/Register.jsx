@@ -19,7 +19,7 @@ function Register() {
         values
       );
       alert(response.data.message);
-    } catch (err) {
+    } catch (error) {
       console.log(error);
       alert(error.response.data.message);
     }

@@ -4,6 +4,7 @@ const axios = require("axios");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const User = require("./user");
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const app = express();
@@ -76,6 +77,40 @@ app.post("/register", async (req, res) => {
     });
   } catch (error) {
     console.error("Error registering user:", error);
+  }
+});
+
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ message: "All fields must be filled in order to log in" });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "No email found" });
+    }
+
+    const matchPass = await bcrypt.compare(password, user.password);
+    if (!matchPass) {
+      return res.status(400).json({ message: "The password is incorrect" });
+    }
+
+    const token = jwt.sign(
+      { id: user._id, username: user.username },
+      process.env.SECRET,
+      { expiresIn: "1d" }
+    );
+    res.status(200).json({
+      message: "Login successful",
+      token,
+      username: user.username,
+    });
+  } catch (error) {
+    console.error("Error logging in:", error);
   }
 });
 
