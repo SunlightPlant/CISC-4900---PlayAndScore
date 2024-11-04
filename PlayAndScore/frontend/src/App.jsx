@@ -13,6 +13,7 @@ function App() {
   const [searchInput, setInput] = useState("");
   const [genres, setGenres] = useState("");
   const [clickedGame, setClickedGame] = useState(null);
+  const [username, setUsername] = useState(null);
 
   const fetchGames = async () => {
     try {
@@ -31,6 +32,8 @@ function App() {
     }
   };
   useEffect(() => {
+    const currentUser = localStorage.getItem("username");
+    setUsername(currentUser);
     fetchGames();
   }, []);
 
@@ -79,18 +82,32 @@ function App() {
                 <h1>PlayAndScore</h1>
                 <h3>Find and review all the games you know and love!</h3>
                 <nav>
-                  <Link to="/register" className="navlinks">
-                    Register
-                  </Link>
-                  <Link to="/login" className="navlinks">
-                    Log In
-                  </Link>
+                  {username ? (
+                    <div>
+                      <p> {username}'s account. </p>
+                      <button
+                        onClick={() => {
+                          localStorage.removeItem("username");
+                          localStorage.removeItem("token");
+                          setUsername(null);
+                        }}
+                      >
+                        Log Out
+                      </button>
+                    </div>
+                  ) : (
+                    <div>
+                      <Link to="/register" className="navlinks">
+                        Register
+                      </Link>
+                      <Link to="/login" className="navlinks">
+                        Log In
+                      </Link>
+                    </div>
+                  )}
                 </nav>
                 <div className="firstline">
                   <h4>Search Game by Name</h4>
-                  <div className="login">
-                    <h4>Register/Sign In</h4>
-                  </div>
                 </div>
                 <div className="sortoptions">
                   <form onSubmit={searchGame}>
