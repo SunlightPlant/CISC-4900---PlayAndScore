@@ -4,6 +4,8 @@ const axios = require("axios");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const User = require("./user");
+const Review = require("./review");
+const authenticate = require("./auth");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -111,6 +113,26 @@ app.post("/login", async (req, res) => {
     });
   } catch (error) {
     console.error("Error logging in:", error);
+  }
+});
+
+app.post("/api/reviews", authenticate, async (req, res) => {
+  const { gameId, rating, reviewText } = req.body;
+  const userId = req.user.id;
+
+  try {
+    const newReview = new Review({
+      gameId,
+      userId,
+      rating,
+      reviewTest,
+      date: new Date(),
+    });
+    await newReview.save();
+
+    res.status(201).json({ message: "Review successfully submitted!" });
+  } catch (error) {
+    res.status(500).json({ message: "Error while submitting review" });
   }
 });
 
