@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const reviewSchema = new Schema({
-  userID: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
@@ -12,7 +12,7 @@ const reviewSchema = new Schema({
     type: String,
     required: true,
   },
-  gameID: {
+  gameId: {
     type: Number,
     required: true,
   },
@@ -25,7 +25,7 @@ const reviewSchema = new Schema({
   reviewText: {
     type: String,
   },
-  timestamp: {
+  date: {
     type: Date,
     default: Date.now,
   },

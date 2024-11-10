@@ -71,6 +71,29 @@ function App() {
       ></GameCard>
     ));
 
+  const handleReview = async (reviewData) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/reviews",
+        reviewData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      alert("Review submitted successfully!");
+    } catch (error) {
+      console.error(
+        "Error submitting review:",
+        error.response ? error.response.data : error.message
+      );
+      alert("Failed to submit the review.");
+    }
+  };
+
   return (
     <div className="appbody">
       <BrowserRouter>
@@ -220,7 +243,11 @@ function App() {
                 </div>
                 <div className="game-display">{showGames()}</div>
                 <div>
-                  <Modal game={clickedGame} onClose={closeModal} />
+                  <Modal
+                    game={clickedGame}
+                    onClose={closeModal}
+                    onSubmitReview={handleReview}
+                  />
                 </div>
               </div>
             }

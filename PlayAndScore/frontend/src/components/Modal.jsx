@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import "./Modal.css";
 
 const Modal = ({ game, onClose, onSubmitReview }) => {
@@ -29,7 +30,9 @@ const Modal = ({ game, onClose, onSubmitReview }) => {
   return (
     <div className="modalBackground">
       <div className="modalContainer">
-        <button onClick={() => onClose()}>X</button>
+        <button className="closeButton" onClick={() => onClose()}>
+          X
+        </button>
         <h2>{game.name}</h2>
         <h4>Released on {releaseDate.toLocaleDateString("en-US")}</h4>
         <h4>

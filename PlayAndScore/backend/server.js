@@ -119,16 +119,20 @@ app.post("/login", async (req, res) => {
 app.post("/api/reviews", authenticate, async (req, res) => {
   const { gameId, rating, reviewText } = req.body;
   const userId = req.user.id;
+  const username = req.user.username;
 
   try {
+    console.log("review data:", req.body);
     const newReview = new Review({
       gameId,
       userId,
       rating,
-      reviewTest,
+      username,
+      reviewText,
       date: new Date(),
     });
     await newReview.save();
+    console.log(req.body);
 
     res.status(201).json({ message: "Review successfully submitted!" });
   } catch (error) {
