@@ -140,6 +140,33 @@ app.post("/api/reviews", authenticate, async (req, res) => {
   }
 });
 
+/* app.get("/api/game/:gameId", async (req, res) => {
+  const { gameId } = req.params;
+
+  try {
+    const gameResponse = await axios.post(
+      "https://cors-anywhere.herokuapp.com/https://api.igdb.com/v4/games",
+      `fields name, summary, genres.name, platforms.name, cover.url; where id = ${gameId};`,
+      {
+        headers: {
+          "Client-ID": process.env.VITE_APP_CLIENT_ID,
+          Authorization: `Bearer ${process.env.VITE_APP_API_KEY}`,
+          "X-Requested-With": "XMLHttpRequest",
+        },
+      }
+    );
+
+    const gameDetails = gameResponse.data[0];
+
+    const reviews = await Review.find({ gameId });
+
+    res.status(200).json({ gameDetails, reviews });
+  } catch (error) {
+    console.error("Error fetching game info or reviews:", error.message);
+    res.status(500).json({ message: "Error fetching game info" });
+  }
+});
+*/
 app.listen(5000, () => {
   console.log("Server active on port 5000");
 });
