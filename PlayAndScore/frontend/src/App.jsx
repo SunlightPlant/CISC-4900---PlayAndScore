@@ -4,6 +4,7 @@ import axios from "axios";
 import GameCard from "./components/GameCard";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Modal from "./components/Modal";
+import GameInfo from "./components/GameInfo";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 
@@ -254,6 +255,7 @@ function App() {
           />
           <Route path="/Register" element={<Register />} />
           <Route path="/Login" element={<Login />} />
+          <Route path="/game/:gameName" element={<GameInfo />} />
         </Routes>
       </BrowserRouter>
     </div>

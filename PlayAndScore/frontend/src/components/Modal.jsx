@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Modal.css";
 
 const Modal = ({ game, onClose, onSubmitReview }) => {
@@ -48,6 +49,11 @@ const Modal = ({ game, onClose, onSubmitReview }) => {
           ratings
         </p>
         <p>{game.summary}</p>
+        <div>
+          <Link to={`/game/${game.name}`} className="gameInfoLink">
+            More Info
+          </Link>
+        </div>
         <div className="reviewForm">
           <h3> Leave a Review </h3>
           <form onSubmit={handleSubmit}>
