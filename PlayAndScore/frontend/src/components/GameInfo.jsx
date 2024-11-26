@@ -6,6 +6,7 @@ import axios from "axios";
 const GameInfo = () => {
   const { gameName } = useParams();
   const [game, setGame] = useState(null);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     const fetchGameByName = async () => {
@@ -26,6 +27,23 @@ const GameInfo = () => {
     fetchGameByName();
   }, [gameName]);
 
+  useEffect(() => {
+    if (game) {
+      const fetchReviews = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/api/reviews/${game.id}`
+          );
+          setReviews(response.data);
+        } catch (error) {
+          console.error("Error fetching reviews:", error);
+        }
+      };
+
+      fetchReviews();
+    }
+  }, [game]);
+
   if (!game) return <div>Loading...</div>;
 
   return (
@@ -42,7 +60,29 @@ const GameInfo = () => {
       <p>
         Platforms: {game.platforms.map((platform) => platform.name).join(", ")}
       </p>
+      <p>
+        Involved Companies:{" "}
+        {game.involved_companies
+          .filter((company) => company.developer)
+          .map((company) => company.company.name)
+          .join(", ")}
+      </p>
       <p>Total Rating: {game.total_rating || "N/A"}</p>
+
+      <div>
+        <h2>Reviews:</h2>
+        {reviews.length > 0 ? (
+          reviews.map((review) => (
+            <div key={review._id}>
+              <h4>{review.username}</h4>
+              <p>Rating: {review.rating}/10</p>
+              <p>{review.reviewText}</p>
+            </div>
+          ))
+        ) : (
+          <p>No reviews yet for this game.</p>
+        )}
+      </div>
     </div>
   );
 };

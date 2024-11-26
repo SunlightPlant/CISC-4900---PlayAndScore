@@ -34,7 +34,7 @@ app.post("/api/games", async (req, res) => {
       "https://cors-anywhere.herokuapp.com/https://api.igdb.com/v4/games",
       `${
         searchInput ? `search "${searchInput}";` : ""
-      } fields name, cover.url, genres.name, platforms.name, first_release_date, involved_companies.developer, summary, total_rating_count, total_rating; where cover.url != null ${
+      } fields name, cover.url, genres.name, platforms.name, first_release_date, involved_companies.company.name, involved_companies.developer, summary, total_rating_count, total_rating; where cover.url != null ${
         genres ? `& genres.name = "${genres}"` : ""
       } & category = (0,2) & version_parent = null; limit 36;`,
       {
@@ -45,6 +45,7 @@ app.post("/api/games", async (req, res) => {
         },
       }
     );
+    // console.log(response.data);
     res.send(response.data);
   } catch (error) {
     console.error("Error found");
@@ -137,6 +138,21 @@ app.post("/api/reviews", authenticate, async (req, res) => {
     res.status(201).json({ message: "Review successfully submitted!" });
   } catch (error) {
     res.status(500).json({ message: "Error while submitting review" });
+  }
+});
+
+app.get("/api/reviews/:gameId", async (req, res) => {
+  const { gameId } = req.params;
+
+  try {
+    const reviews = await Review.find({ gameId }).populate(
+      "userId",
+      "username"
+    );
+    res.status(200).json(reviews);
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+    res.status(500).json({ message: "Failed to fetch reviews." });
   }
 });
 

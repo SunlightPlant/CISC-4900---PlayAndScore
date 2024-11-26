@@ -42,7 +42,10 @@ const Modal = ({ game, onClose, onSubmitReview }) => {
         </h4>
         <h4>Genres : {game.genres.map((genre) => genre.name).join(", ")}</h4>
         {game.cover && (
-          <img src={game.cover.url.replace("t_thumb", "t_cover_big")}></img>
+          <img
+            src={game.cover.url.replace("t_thumb", "t_cover_big")}
+            alt={game.name}
+          ></img>
         )}
         <p>
           Total rating : {roundedScore}/100 with {game.total_rating_count}{" "}
