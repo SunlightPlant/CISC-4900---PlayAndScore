@@ -15,12 +15,13 @@ function App() {
   const [genres, setGenres] = useState("");
   const [clickedGame, setClickedGame] = useState(null);
   const [username, setUsername] = useState(null);
+  const [page, setPage] = useState(1);
 
   const fetchGames = async () => {
     try {
       const response = await axios.post(
         "http://localhost:5000/api/games",
-        { searchInput, genres },
+        { searchInput, genres, page, limit: 36 },
         {
           headers: {
             "X-Requested-With": "XMLHttpRequest",
@@ -36,7 +37,15 @@ function App() {
     const currentUser = localStorage.getItem("username");
     setUsername(currentUser);
     fetchGames();
-  }, []);
+  }, [page, searchInput, genres]);
+
+  const nextPage = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
+
+  const prevPage = () => {
+    setPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1));
+  };
 
   const gameClick = (game) => {
     setClickedGame(game);
@@ -48,19 +57,19 @@ function App() {
 
   const searchGame = (e) => {
     e.preventDefault();
-    fetchGames();
+    setPage(1);
   };
 
   const sortGames = (e) => {
     e.preventDefault();
+    setPage(1);
     setGenres(e.target.value);
-    fetchGames();
   };
 
   const resetFilter = (e) => {
     e.preventDefault();
+    setPage(1);
     setGenres("");
-    fetchGames();
   };
 
   const showGames = () =>
@@ -249,6 +258,12 @@ function App() {
                     onClose={closeModal}
                     onSubmitReview={handleReview}
                   />
+                </div>
+                <div>
+                  <button onClick={prevPage} disabled={page === 1}>
+                    Previous
+                  </button>
+                  <button onClick={nextPage}>Next</button>
                 </div>
               </div>
             }

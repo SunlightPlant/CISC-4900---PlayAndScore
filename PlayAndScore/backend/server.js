@@ -28,7 +28,9 @@ mongoose
 
 app.post("/api/games", async (req, res) => {
   console.log("POST received");
-  const { searchInput, genres } = req.body;
+  const { searchInput, genres, page = 1, limit = 36 } = req.body;
+  const offset = (page - 1) * limit;
+
   try {
     const response = await axios.post(
       "https://cors-anywhere.herokuapp.com/https://api.igdb.com/v4/games",
@@ -36,7 +38,7 @@ app.post("/api/games", async (req, res) => {
         searchInput ? `search "${searchInput}";` : ""
       } fields name, cover.url, genres.name, platforms.name, first_release_date, involved_companies.company.name, involved_companies.developer, summary, total_rating_count, total_rating; where cover.url != null ${
         genres ? `& genres.name = "${genres}"` : ""
-      } & category = (0,2) & version_parent = null; limit 36;`,
+      } & category = (0,2) & version_parent = null; limit ${limit}; offset ${offset};`,
       {
         headers: {
           "Client-ID": process.env.VITE_APP_CLIENT_ID,
