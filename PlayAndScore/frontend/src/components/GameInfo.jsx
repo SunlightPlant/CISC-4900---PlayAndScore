@@ -61,7 +61,7 @@ const GameInfo = () => {
         Platforms: {game.platforms.map((platform) => platform.name).join(", ")}
       </p>
       <p>
-        Involved Companies:{" "}
+        Developers:{" "}
         {game.involved_companies
           .filter((company) => company.developer)
           .map((company) => company.company.name)
