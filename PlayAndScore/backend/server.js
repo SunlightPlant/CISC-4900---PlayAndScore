@@ -28,27 +28,50 @@ mongoose
 
 app.post("/api/games", async (req, res) => {
   console.log("POST received");
-  const { searchInput, genres, page = 1, limit = 36 } = req.body;
+  const { gameId, genres, page = 1, limit = 36 } = req.body;
   const offset = (page - 1) * limit;
 
   try {
-    const response = await axios.post(
-      "https://cors-anywhere.herokuapp.com/https://api.igdb.com/v4/games",
-      `${
-        searchInput ? `search "${searchInput}";` : ""
-      } fields name, cover.url, genres.name, platforms.name, first_release_date, involved_companies.company.name, involved_companies.developer, summary, total_rating_count, total_rating; where cover.url != null ${
-        genres ? `& genres.name = "${genres}"` : ""
-      } & category = (0,2) & version_parent = null; limit ${limit}; offset ${offset}; sort total_rating_count desc;`,
-      {
-        headers: {
-          "Client-ID": process.env.VITE_APP_CLIENT_ID,
-          Authorization: `Bearer ${process.env.VITE_APP_API_KEY}`,
-          "X-Requested-With": "XMLHttpRequest",
-        },
-      }
-    );
-    // console.log(response.data);
-    res.send(response.data);
+    if (gameId) {
+      const response = await axios.post(
+        "https://cors-anywhere.herokuapp.com/https://api.igdb.com/v4/games",
+        `fields name, cover.url, genres.name, platforms.name, first_release_date, involved_companies.company.name, involved_companies.developer, summary, total_rating_count, total_rating;
+        where id = ${gameId}; 
+        limit 1;`,
+        {
+          headers: {
+            "Client-ID": process.env.VITE_APP_CLIENT_ID,
+            Authorization: `Bearer ${process.env.VITE_APP_API_KEY}`,
+            "X-Requested-With": "XMLHttpRequest",
+          },
+        }
+      );
+      res.send(response.data);
+    } else {
+      const { searchInput } = req.body;
+      const query = `
+        ${searchInput ? `search "${searchInput}";` : ""}
+        fields name, cover.url, genres.name, platforms.name, first_release_date, involved_companies.company.name, involved_companies.developer, summary, total_rating_count, total_rating;
+        where cover.url != null
+        ${genres ? `& genres.name = "${genres}"` : ""}
+        & category = (0,2) & version_parent = null
+        & (total_rating_count != null); 
+        limit ${limit}; offset ${offset};
+        ${searchInput ? "" : "sort total_rating_count desc;"}
+      `;
+      const response = await axios.post(
+        "https://cors-anywhere.herokuapp.com/https://api.igdb.com/v4/games",
+        query,
+        {
+          headers: {
+            "Client-ID": process.env.VITE_APP_CLIENT_ID,
+            Authorization: `Bearer ${process.env.VITE_APP_API_KEY}`,
+            "X-Requested-With": "XMLHttpRequest",
+          },
+        }
+      );
+      res.send(response.data);
+    }
   } catch (error) {
     console.error("Error found");
   }

@@ -4,28 +4,28 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const GameInfo = () => {
-  const { gameName } = useParams();
+  const { gameId } = useParams();
   const [game, setGame] = useState(null);
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    const fetchGameByName = async () => {
+    const fetchGameById = async () => {
       try {
         const response = await axios.post("http://localhost:5000/api/games", {
-          searchInput: gameName,
+          gameId,
         });
         if (response.data.length > 0) {
           setGame(response.data[0]);
         } else {
-          console.error("No game found for the given name.");
+          console.error("No game found for the given ID.");
         }
       } catch (error) {
         console.error("Error fetching game info:", error);
       }
     };
 
-    fetchGameByName();
-  }, [gameName]);
+    fetchGameById();
+  }, [gameId]);
 
   useEffect(() => {
     if (game) {
@@ -67,6 +67,7 @@ const GameInfo = () => {
           .map((company) => company.company.name)
           .join(", ")}
       </p>
+      <p>Game ID : {game.id}.</p>
       <p>Total Rating: {game.total_rating || "N/A"}</p>
 
       <div>

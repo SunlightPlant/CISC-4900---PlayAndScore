@@ -53,7 +53,7 @@ const Modal = ({ game, onClose, onSubmitReview }) => {
         </p>
         <p>{game.summary}</p>
         <div>
-          <Link to={`/game/${game.name}`} className="gameInfoLink">
+          <Link to={`/game/${game.id}`} className="gameInfoLink">
             More Info
           </Link>
         </div>
