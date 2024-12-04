@@ -7,6 +7,7 @@ import Modal from "./components/Modal";
 import GameInfo from "./components/GameInfo";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import Profile from "./components/Profile";
 
 function App() {
   const URL = "https://api.igdb.com/v4/games";
@@ -143,7 +144,7 @@ function App() {
                   <h4>Search Game by Name</h4>
                 </div>
                 <div className="profilebutton">
-                  <h3>Your Profile</h3>
+                  <Link to={`/users/${username}`}>Your Profile</Link>
                 </div>
                 <div className="sortoptions">
                   <form onSubmit={searchGame}>
@@ -195,6 +196,7 @@ function App() {
           <Route path="/Register" element={<Register />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/game/:gameId" element={<GameInfo />} />
+          <Route path="/users/:username" element={<Profile />} />
         </Routes>
       </BrowserRouter>
     </div>

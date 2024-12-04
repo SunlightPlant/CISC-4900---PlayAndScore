@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -75,7 +75,9 @@ const GameInfo = () => {
         {reviews.length > 0 ? (
           reviews.map((review) => (
             <div key={review._id}>
-              <h4>{review.username}</h4>
+              <h4>
+                <a href={`/users/${review.username}`}>{review.username}</a>
+              </h4>
               <p>Rating: {review.rating}/10</p>
               <p>{review.reviewText}</p>
             </div>

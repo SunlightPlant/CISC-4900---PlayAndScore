@@ -180,6 +180,26 @@ app.get("/api/reviews/:gameId", async (req, res) => {
   }
 });
 
+app.get("/users/:username", async (req, res) => {
+  const { username } = req.params;
+  try {
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const reviews = await Review.find({ userId: user._id });
+
+    res.json({
+      username: user.username,
+      reviews,
+    });
+  } catch (error) {
+    console.error("Error fetching user profile", error.message);
+    res.status(500).json({ message: "Error fetching user profile" });
+  }
+});
+
 app.listen(5000, () => {
   console.log("Server active on port 5000");
 });
