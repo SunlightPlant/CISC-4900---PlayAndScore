@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 
 const GameInfo = () => {
@@ -44,11 +44,39 @@ const GameInfo = () => {
     }
   }, [game]);
 
+  const handleListUpdate = async (listName) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("You need to be logged in to manage lists!");
+        return;
+      }
+
+      await axios.post(
+        `http://localhost:5000/api/lists/${localStorage.getItem("username")}`,
+        { gameId: game.id, listName },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      alert(`Game added to your list!`);
+    } catch (error) {
+      console.error("Error updating list:", error);
+    }
+  };
+
   if (!game) return <div>Loading...</div>;
 
   return (
     <div>
+      <Link to={`/`}>Home</Link>
       <h1>{game.name}</h1>
+      <div>
+        <h4>Manage Lists:</h4>
+        <button onClick={() => handleListUpdate("played")}>Played</button>
+        <button onClick={() => handleListUpdate("playing")}>Playing</button>
+        <button onClick={() => handleListUpdate("wanttoplay")}>
+          Want to Play
+        </button>
+      </div>
       {game.cover && (
         <img
           src={game.cover.url.replace("t_thumb", "t_cover_big")}
@@ -67,7 +95,6 @@ const GameInfo = () => {
           .map((company) => company.company.name)
           .join(", ")}
       </p>
-      <p>Game ID : {game.id}.</p>
       <p>Total Rating: {game.total_rating || "N/A"}</p>
 
       <div>

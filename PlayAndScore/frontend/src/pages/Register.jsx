@@ -68,6 +68,9 @@ function Register() {
         <h4>
           Already have an account? <Link to="/login">Login</Link>
         </h4>
+        <h4>
+          <Link to={`/`}>Home</Link>
+        </h4>
       </form>
     </div>
   );

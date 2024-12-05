@@ -193,10 +193,39 @@ app.get("/users/:username", async (req, res) => {
     res.json({
       username: user.username,
       reviews,
+      lists: {
+        played: user.played,
+        playing: user.playing,
+        wanttoplay: user.wanttoplay,
+      },
     });
   } catch (error) {
     console.error("Error fetching user profile", error.message);
     res.status(500).json({ message: "Error fetching user profile" });
+  }
+});
+
+app.post("/api/lists/:username", authenticate, async (req, res) => {
+  const { username } = req.params;
+  const { gameId, listName } = req.body;
+
+  console.log("Incoming list update request:", { username, gameId, listName });
+
+  try {
+    const user = await User.findOne({ username });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    if (user[listName] !== undefined) {
+      user[listName] = [...new Set([...user[listName], gameId])];
+      await user.save();
+
+      res.status(200).json({ message: "Game added to list" });
+    } else {
+      res.status(400).json({ message: "Error" });
+    }
+  } catch (error) {
+    console.error("Error managing lists:", error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 

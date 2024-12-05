@@ -17,6 +17,18 @@ const userSchema = new Schema({
     required: true,
     unique: true,
   },
+  played: {
+    type: [String],
+    default: [],
+  },
+  playing: {
+    type: [String],
+    default: [],
+  },
+  wanttoplay: {
+    type: [String],
+    default: [],
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);

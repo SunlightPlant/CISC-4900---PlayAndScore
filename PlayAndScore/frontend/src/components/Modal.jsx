@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Modal.css";
+import axios from "axios";
 
 const Modal = ({ game, onClose, onSubmitReview }) => {
   if (!game) return null;
@@ -10,6 +11,7 @@ const Modal = ({ game, onClose, onSubmitReview }) => {
 
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
+  const [selectedList, setSelectedList] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,6 +30,26 @@ const Modal = ({ game, onClose, onSubmitReview }) => {
     onSubmitReview(reviewData);
     onClose();
   };
+
+  const handleListUpdate = async (listName) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("You need to be logged in to manage lists!");
+        return;
+      }
+
+      await axios.post(
+        `http://localhost:5000/api/lists/${localStorage.getItem("username")}`,
+        { gameId: game.id, listName },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      alert(`Game added to your list!`);
+    } catch (error) {
+      console.error("Error updating list:", error);
+    }
+  };
+
   return (
     <div className="modalBackground">
       <div className="modalContainer">
@@ -35,6 +57,14 @@ const Modal = ({ game, onClose, onSubmitReview }) => {
           X
         </button>
         <h2>{game.name}</h2>
+        <div>
+          <h4>Manage Lists:</h4>
+          <button onClick={() => handleListUpdate("played")}>Played</button>
+          <button onClick={() => handleListUpdate("playing")}>Playing</button>
+          <button onClick={() => handleListUpdate("wanttoplay")}>
+            Want to Play
+          </button>
+        </div>
         <h4>Released on {releaseDate.toLocaleDateString("en-US")}</h4>
         <h4>
           Released for{" "}
