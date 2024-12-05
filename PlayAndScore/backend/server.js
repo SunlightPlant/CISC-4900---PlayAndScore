@@ -209,20 +209,31 @@ app.post("/api/lists/:username", authenticate, async (req, res) => {
   const { username } = req.params;
   const { gameId, listName } = req.body;
 
-  console.log("Incoming list update request:", { username, gameId, listName });
-
   try {
     const user = await User.findOne({ username });
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    if (user[listName] !== undefined) {
-      user[listName] = [...new Set([...user[listName], gameId])];
-      await user.save();
+    user.played = user.played.filter(
+      (id) => id.toString() !== gameId.toString()
+    );
+    user.playing = user.playing.filter(
+      (id) => id.toString() !== gameId.toString()
+    );
+    user.wanttoplay = user.wanttoplay.filter(
+      (id) => id.toString() !== gameId.toString()
+    );
 
-      res.status(200).json({ message: "Game added to list" });
-    } else {
-      res.status(400).json({ message: "Error" });
+    if (listName === "played" && !user.played.includes(gameId)) {
+      user.played.push(gameId);
+    } else if (listName === "playing" && !user.playing.includes(gameId)) {
+      user.playing.push(gameId);
+    } else if (listName === "wanttoplay" && !user.wanttoplay.includes(gameId)) {
+      user.wanttoplay.push(gameId);
     }
+
+    await user.save();
+
+    res.status(200).json({ message: "Game added to list" });
   } catch (error) {
     console.error("Error managing lists:", error);
     res.status(500).json({ message: "Server error" });
