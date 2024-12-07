@@ -34,15 +34,13 @@ app.post("/api/games", async (req, res) => {
   try {
     if (gameId) {
       const response = await axios.post(
-        "https://cors-anywhere.herokuapp.com/https://api.igdb.com/v4/games",
+        "https://mboxszpjq5.execute-api.us-west-2.amazonaws.com/production/v4/games",
         `fields name, cover.url, genres.name, platforms.name, first_release_date, involved_companies.company.name, involved_companies.developer, summary, total_rating_count, total_rating;
         where id = ${gameId}; 
         limit 1;`,
         {
           headers: {
-            "Client-ID": process.env.VITE_APP_CLIENT_ID,
-            Authorization: `Bearer ${process.env.VITE_APP_API_KEY}`,
-            "X-Requested-With": "XMLHttpRequest",
+            "x-api-key": process.env.AWS_API_KEY,
           },
         }
       );
@@ -50,7 +48,7 @@ app.post("/api/games", async (req, res) => {
     } else {
       const { searchInput } = req.body;
       const response = await axios.post(
-        "https://cors-anywhere.herokuapp.com/https://api.igdb.com/v4/games",
+        "https://mboxszpjq5.execute-api.us-west-2.amazonaws.com/production/v4/games",
         `
         ${searchInput ? `search "${searchInput}";` : ""}
         fields name, cover.url, genres.name, platforms.name, first_release_date, involved_companies.company.name, involved_companies.developer, summary, total_rating_count, total_rating;
@@ -63,9 +61,7 @@ app.post("/api/games", async (req, res) => {
         `,
         {
           headers: {
-            "Client-ID": process.env.VITE_APP_CLIENT_ID,
-            Authorization: `Bearer ${process.env.VITE_APP_API_KEY}`,
-            "X-Requested-With": "XMLHttpRequest",
+            "x-api-key": process.env.AWS_API_KEY,
           },
         }
       );
