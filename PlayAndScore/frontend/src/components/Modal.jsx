@@ -35,7 +35,7 @@ const Modal = ({ game, onClose, onSubmitReview }) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        alert("You need to be logged in to manage lists!");
+        alert("You need to be logged in to manage play lists");
         return;
       }
 
@@ -44,9 +44,9 @@ const Modal = ({ game, onClose, onSubmitReview }) => {
         { gameId: game.id, listName },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      alert(`Game added to your list!`);
+      alert(`Game added to your play list`);
     } catch (error) {
-      console.error("Error updating list:", error);
+      console.error("Error updating play list:", error);
     }
   };
 
@@ -57,8 +57,8 @@ const Modal = ({ game, onClose, onSubmitReview }) => {
           X
         </button>
         <h2>{game.name}</h2>
-        <div>
-          <h4>Manage Lists:</h4>
+        <h4>Manage Play Lists:</h4>
+        <div className="playlists">
           <button onClick={() => handleListUpdate("played")}>Played</button>
           <button onClick={() => handleListUpdate("playing")}>Playing</button>
           <button onClick={() => handleListUpdate("wanttoplay")}>
@@ -73,7 +73,7 @@ const Modal = ({ game, onClose, onSubmitReview }) => {
         <h4>Genres : {game.genres.map((genre) => genre.name).join(", ")}</h4>
         {game.cover && (
           <img
-            src={game.cover.url.replace("t_thumb", "t_cover_big")}
+            src={game.cover.url.replace("t_thumb", "t_1080p")}
             alt={game.name}
           ></img>
         )}

@@ -2,7 +2,7 @@
   max-width: 400px;
   width: 100%;
   padding: 20px;
-  background-color: darkslategray;
+  background-color: black;
   border-radius: 15px;
   text-align: center;
   position: absolute;
@@ -13,7 +13,11 @@
 
 .logh2 {
   font-weight: bold;
-  color: white;
+  color: #ff0066;
+}
+
+label {
+  color: #ff0066;
 }
 
 .logForm {
@@ -30,15 +34,15 @@
 
 .logButton {
   padding: 10px;
-  background-color: blue;
+  background-color: #555;
   color: white;
 }
 
 .logForm a {
-  color: blue;
+  color: #ff0066;
   font-weight: bold;
 }
 
 .logForm h4 {
-  color: white;
+  color: #ff0066;
 }

@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import "./Profile.css";
 
 const Profile = () => {
   const { username } = useParams();
@@ -73,16 +74,14 @@ const Profile = () => {
         list.map((gameId) => {
           const game = games[gameId];
           return game ? (
-            <div key={gameId} style={{ marginBottom: "10px" }}>
+            <div key={gameId} className="listContent">
               <Link to={`/game/${gameId}`}>
                 {game.cover && (
                   <img
-                    src={game.cover.url.replace("t_thumb", "t_cover_big")}
+                    src={game.cover.url.replace("t_thumb", "t_cover_small")}
                     alt={game.name}
-                    style={{ maxWidth: "150px", display: "block" }}
                   />
                 )}
-                <p>{game.name}</p>
               </Link>
             </div>
           ) : (
@@ -97,32 +96,30 @@ const Profile = () => {
 
   return (
     <div>
-      <Link to={`/`}>Home</Link>
+      <Link to="/">Home</Link>
       <h1>{user}'s Profile</h1>
-      <div>
+      <div className="reviewSection">
         <h2>Reviews:</h2>
         {reviews.length > 0 ? (
           reviews.map((review) => {
             const game = games[review.gameId];
-
             return game ? (
-              <div key={review._id}>
-                <p>Rating: {review.rating}/10</p>
-                <p>{review.reviewText}</p>
+              <div key={review._id} className="reviewContent">
                 <Link to={`/game/${review.gameId}`}>
                   {game.cover && (
                     <img
-                      src={game.cover.url.replace("t_thumb", "t_cover_big")}
+                      src={game.cover.url.replace("t_thumb", "t_cover_small")}
                       alt={game.name}
-                      style={{
-                        maxWidth: "200px",
-                        display: "block",
-                        marginBottom: "10px",
-                      }}
                     />
                   )}
-                  <h2>{game.name}</h2>
                 </Link>
+                <div>
+                  <h2>{game.name}</h2>
+                  <p>
+                    Rating: <span>{review.rating}/10</span>
+                  </p>
+                  <p>{review.reviewText}</p>
+                </div>
               </div>
             ) : (
               <p>Loading game info...</p>
@@ -132,9 +129,12 @@ const Profile = () => {
           <p>No reviews yet.</p>
         )}
       </div>
-      {renderList(lists.played, "Played")}
-      {renderList(lists.playing, "Playing")}
-      {renderList(lists.wanttoplay, "Want to Play")}
+
+      <div className="listSection">
+        {renderList(lists.played, "Played")}
+        {renderList(lists.playing, "Playing")}
+        {renderList(lists.wanttoplay, "Want to Play")}
+      </div>
     </div>
   );
 };

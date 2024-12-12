@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import "./GameInfo.css";
 
 const GameInfo = () => {
   const { gameId } = useParams();
@@ -48,7 +49,7 @@ const GameInfo = () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        alert("You need to be logged in to manage lists!");
+        alert("You need to be logged in to manage play lists");
         return;
       }
 
@@ -57,9 +58,9 @@ const GameInfo = () => {
         { gameId: game.id, listName },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      alert(`Game added to your list!`);
+      alert(`Game added to your play list`);
     } catch (error) {
-      console.error("Error updating list:", error);
+      console.error("Error updating play list:", error);
     }
   };
 
@@ -69,49 +70,56 @@ const GameInfo = () => {
     <div>
       <Link to={`/`}>Home</Link>
       <h1>{game.name}</h1>
-      <div>
-        <h4>Manage Lists:</h4>
+      <div className="buttons">
+        <h4>Manage Play Lists:</h4>
         <button onClick={() => handleListUpdate("played")}>Played</button>
         <button onClick={() => handleListUpdate("playing")}>Playing</button>
         <button onClick={() => handleListUpdate("wanttoplay")}>
           Want to Play
         </button>
       </div>
-      {game.cover && (
-        <img
-          src={game.cover.url.replace("t_thumb", "t_cover_big")}
-          alt={game.name}
-        />
-      )}
-      <p>{game.summary}</p>
-      <p>Genres: {game.genres.map((genre) => genre.name).join(", ")}</p>
-      <p>
-        Platforms: {game.platforms.map((platform) => platform.name).join(", ")}
-      </p>
-      <p>
-        Developers:{" "}
-        {game.involved_companies
-          .filter((company) => company.developer)
-          .map((company) => company.company.name)
-          .join(", ")}
-      </p>
-      <p>Total Rating: {game.total_rating || "N/A"}</p>
-
+      <div className="main">
+        <div className="cover">
+          {game.cover && (
+            <img
+              src={game.cover.url.replace("t_thumb", "t_1080p")}
+              alt={game.name}
+            />
+          )}
+        </div>
+        <div className="desc">
+          <p>{game.summary}</p>
+        </div>
+        <p>Genres: {game.genres.map((genre) => genre.name).join(", ")}</p>
+        <p>
+          Platforms:{" "}
+          {game.platforms.map((platform) => platform.name).join(", ")}
+        </p>
+        <p>
+          Developers:{" "}
+          {game.involved_companies
+            .filter((company) => company.developer)
+            .map((company) => company.company.name)
+            .join(", ")}
+        </p>
+        <p>Total Rating: {game.total_rating || "N/A"}</p>
+        <h2>User Reviews:</h2>
+      </div>
       <div>
-        <h2>Reviews:</h2>
-        {reviews.length > 0 ? (
-          reviews.map((review) => (
-            <div key={review._id}>
-              <h4>
+        <div className="review">
+          {reviews.length > 0 ? (
+            reviews.map((review) => (
+              <div className="reviewContent" key={review._id}>
                 <a href={`/users/${review.username}`}>{review.username}</a>
-              </h4>
-              <p>Rating: {review.rating}/10</p>
-              <p>{review.reviewText}</p>
-            </div>
-          ))
-        ) : (
-          <p>No reviews yet for this game.</p>
-        )}
+                <p> - </p>
+                <p>{review.rating}/10 - </p>
+                <p>{review.reviewText}</p>
+              </div>
+            ))
+          ) : (
+            <p>No reviews yet for this game.</p>
+          )}
+        </div>
       </div>
     </div>
   );

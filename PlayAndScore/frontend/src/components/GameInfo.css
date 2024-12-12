@@ -1,0 +1,71 @@
+body {
+  background-color: black;
+  color: #ff0066;
+  padding: 20px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 1200px;
+  color: #ff0066;
+}
+
+.cover img {
+  width: 300px;
+  height: auto;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+
+h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.desc {
+  font-size: 1.2em;
+  line-height: 1.6;
+  margin: 10px 0;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.review {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.reviewContent {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px solid #ff0066;
+  color: #ff0066;
+  padding: 5px 0;
+}
+
+.reviewContent a {
+  text-decoration: none;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.reviewContent a:hover {
+  text-decoration: underline;
+}
+
+.reviewContent p {
+  margin: 0 5px;
+}
