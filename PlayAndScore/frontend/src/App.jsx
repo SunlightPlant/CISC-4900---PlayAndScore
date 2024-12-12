@@ -115,7 +115,7 @@ function App() {
               <div>
                 <h1>PlayAndScore</h1>
                 <h3>Find and review all the games you know and love!</h3>
-                <nav>
+                <nav className="firstline">
                   {username ? (
                     <div>
                       <p> {username}'s account. </p>
@@ -128,6 +128,7 @@ function App() {
                       >
                         Log Out
                       </button>
+                      <Link to={`/users/${username}`}>Your Profile</Link>
                     </div>
                   ) : (
                     <div>
@@ -140,22 +141,16 @@ function App() {
                     </div>
                   )}
                 </nav>
-                <div className="firstline">
-                  <h4>Search Game by Name</h4>
-                </div>
-                <div className="profilebutton">
-                  <Link to={`/users/${username}`}>Your Profile</Link>
-                </div>
-                <div className="sortoptions">
+                <div className="search">
                   <form onSubmit={searchGame}>
                     <input
                       type="text"
                       onChange={(e) => setInput(e.target.value)}
                     ></input>
-                    <button type="submit">Submit</button>
                   </form>
-                  <form>
-                    <h4>Sort By Genre</h4>
+                </div>
+                <form>
+                  <div className="sortoptions">
                     <select name="genre" onChange={sortGames}>
                       <option value="">Select Genre</option>
                       <option value="Adventure">Adventure</option>
@@ -174,8 +169,8 @@ function App() {
                       <option value="Platform">Platform</option>
                     </select>
                     <button onClick={resetFilter}>Clear Genre Filter</button>
-                  </form>
-                </div>
+                  </div>
+                </form>
                 <div className="game-display">{showGames()}</div>
                 <div>
                   <Modal
@@ -193,8 +188,8 @@ function App() {
               </div>
             }
           />
-          <Route path="/Register" element={<Register />} />
-          <Route path="/Login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/game/:gameId" element={<GameInfo />} />
           <Route path="/users/:username" element={<Profile />} />
         </Routes>

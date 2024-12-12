@@ -1,26 +1,72 @@
 .appbody {
   background-color: black;
   color: white;
+  font-family: "Roboto", sans-serif;
+  width: 100vw;
+  max-width: none;
+  padding: 0;
+  margin: 0 auto;
 }
 
 .firstline {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 6px;
   margin: 10px;
+  width: 100%;
+}
+
+.search {
+  margin: 10px 0;
+  padding: 18px;
 }
 
 .sortoptions {
-  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 10px 0;
+  gap: 10px;
+  padding-left: 20px;
+}
+
+.sortoptions select {
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.sortoptions button {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ff0066;
+  background-color: transparent;
+  color: #ff0066;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sortoptions button:hover {
+  background-color: #ff0066;
+  color: white;
 }
 
 .navlinks {
+  margin: 15px;
+  display: flex;
+  align-items: center;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin: 15px;
 }
 
 .login {
   border-radius: 10px;
-  border: 1px solid pink;
+  border: 1px solid white;
   padding: 10px;
 }
 
@@ -31,26 +77,78 @@
 h1,
 h3 {
   text-align: center;
+  font-family: "Playfair Display", serif;
+  color: #ff0066;
+  font-size: 20px;
 }
 
 .game-display {
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  max-width: 100%;
+  margin: 20px auto;
   display: grid;
-  padding: 15px;
+  gap: 10px;
+  background-color: black;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  background-color: darkslategray;
 }
 
 .game-card {
   display: flex;
+  border-radius: 10px;
+  overflow: hidden;
   flex-direction: column;
   align-items: center;
+  margin: 15px;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .game-cover img {
-  width: 200px;
-  height: 280px;
-  border: 1px solid pink;
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  border: 1px solid #ff0066;
   border-radius: 10px;
+}
+
+button {
+  background-color: #ff0066;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #ff0066;
+}
+
+button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+.game-card:hover {
+  transform: scale(1.2);
+}
+
+input,
+select,
+button {
+  margin: 10px;
+  padding: 8px;
+  border: 1px solid white;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+nav a {
+  color: #ff0066;
+  margin: 0 10px;
+  font-size: 16px;
+}
+
+nav a:hover {
+  color: white;
 }
