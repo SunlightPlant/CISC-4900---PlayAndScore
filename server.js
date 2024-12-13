@@ -3,9 +3,9 @@ const cors = require("cors");
 const axios = require("axios");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const User = require(".PlayAndScore/backend/user");
-const Review = require(".PlayAndScore/backend/review");
-const authenticate = require(".PlayAndScore/backend/auth");
+const User = require("./PlayAndScore/backend/user");
+const Review = require("./PlayAndScore/backend/review");
+const authenticate = require("./PlayAndScore/backend/auth");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
