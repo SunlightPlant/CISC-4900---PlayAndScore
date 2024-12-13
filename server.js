@@ -18,13 +18,19 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 mongoose
-  .connect("mongodb://localhost:27017/jwt", {})
+  .connect(process.env.MONGO_URI, {})
   .then(() => {
     console.log("DB Connected");
   })
   .catch((err) => {
     console.log(err.message);
   });
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server active on port ${PORT}`);
+});
 
 app.post("/api/games", async (req, res) => {
   console.log("POST received");
@@ -234,8 +240,4 @@ app.post("/api/lists/:username", authenticate, async (req, res) => {
     console.error("Error managing lists:", error);
     res.status(500).json({ message: "Server error" });
   }
-});
-
-app.listen(5000, () => {
-  console.log("Server active on port 5000");
 });
