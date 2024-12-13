@@ -3,9 +3,9 @@ const cors = require("cors");
 const axios = require("axios");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const User = require("./user");
-const Review = require("./review");
-const authenticate = require("./auth");
+const User = require("./backend/user");
+const Review = require(".backend/review");
+const authenticate = require(".backend/auth");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
